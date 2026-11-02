@@ -268,6 +268,36 @@ html.svc-light .svc-dark {
     animation: fade-up 0.7s var(--ease-out) both;
   }
 
+  /* Page changes. Short and quiet, because people change page many times a
+     day. `backwards` (not `both`) so nothing stays animated afterwards:
+     a leftover transform would trap position:fixed children. */
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Whole page (opacity only, so the fixed header is never affected). */
+  .animate-page-fade {
+    animation: fade-in 180ms var(--ease-out) backwards;
+  }
+
+  /* Page content inside the app shell: a few pixels of lift plus a fade. */
+  .animate-page-in {
+    animation: page-in 220ms var(--ease-out) backwards;
+  }
+
+  /* Loading skeletons wait 150ms before appearing, so content that arrives
+     quickly never shows a flash of grey boxes. */
+  .animate-delayed-in {
+    animation: fade-in 200ms var(--ease-out) 150ms backwards;
+  }
+
   @keyframes marquee {
     from {
       transform: translateX(0);
@@ -287,6 +317,15 @@ html.svc-light .svc-dark {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Fewer, gentler animations: keep the fade, drop the movement and pulsing. */
+  .animate-page-in {
+    animation: fade-in 150ms ease backwards;
+  }
+
+  [data-slot="skeleton"] {
+    animation: none;
+  }
+
   .animate-fade-up {
     animation: fade-in 0.3s ease both;
   }

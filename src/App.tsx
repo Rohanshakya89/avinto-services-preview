@@ -22,6 +22,10 @@ import { ServicePlaceholder } from "@/pages/service-placeholder"
 import { WebDevelopmentPage } from "@/pages/web-development-page"
 import { AppsHubPage } from "@/pages/apps-hub-page"
 import { TrackerShell } from "@/apps/timetracker/tracker-shell"
+import {
+  AnalyticsSkeleton,
+  TrackerSkeleton,
+} from "@/apps/timetracker/skeletons"
 import { TrackerComingSoon } from "@/apps/timetracker/coming-soon"
 import { isAppsPath } from "@/lib/apps"
 import { usePath } from "@/lib/router"
@@ -61,6 +65,13 @@ export function HomePage() {
   )
 }
 
+/**
+ * Which part of the site a path belongs to. The page fades in when this
+ * changes (home, a service page, the tracker), but moving between pages
+ * inside the tracker keeps the same key, so its sidebar never re-animates.
+ */
+const routeKey = (path: string) => path.split("/").slice(0, 3).join("/")
+
 export function App() {
   const path = usePath()
 
@@ -72,17 +83,25 @@ export function App() {
     if (isHubAlias || isUnknown) window.history.replaceState({}, "", "/")
   }, [path])
 
+  return (
+    <div key={routeKey(path)} className="animate-page-fade">
+      <Routes path={path} />
+    </div>
+  )
+}
+
+function Routes({ path }: { path: string }) {
   // Home is the app chooser; each app lives under /apps/<name>.
   if (path === "/" || /^\/apps\/?$/.test(path)) return <AppsHubPage />
   if (/^\/apps\/timetracker(\/.*)?$/.test(path)) {
     return (
       <TrackerShell>
         {/^\/apps\/timetracker\/analytics\/?$/.test(path) ? (
-          <React.Suspense fallback={null}>
+          <React.Suspense fallback={<AnalyticsSkeleton />}>
             <AnalyticsPage />
           </React.Suspense>
         ) : /^\/apps\/timetracker\/?$/.test(path) ? (
-          <React.Suspense fallback={null}>
+          <React.Suspense fallback={<TrackerSkeleton />}>
             <TrackerPage />
           </React.Suspense>
         ) : (

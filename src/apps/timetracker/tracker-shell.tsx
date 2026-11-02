@@ -108,7 +108,11 @@ export function TrackerShell({ children }: { children: React.ReactNode }) {
             </Sheet>
           }
         />
-        <main className="flex-1 p-4 md:p-6">{children}</main>
+        {/* Keyed by path: the content eases in on every page change while the
+            sidebar and top bar stay put. */}
+        <main key={path} className="animate-page-in flex-1 p-4 md:p-6">
+          {children}
+        </main>
       </div>
     </div>
   )
