@@ -14,7 +14,17 @@ export function SegmentedList({
   className,
   ...props
 }: React.ComponentProps<typeof TabsList>) {
-  return <TabsList className={cn("h-12 w-fit p-1", className)} {...props} />
+  // The group-data variant matches (and so replaces) the tabs component's own
+  // fixed height; a plain h-* would lose to it. 40px, up from 32px.
+  return (
+    <TabsList
+      className={cn(
+        "w-fit p-1 group-data-horizontal/tabs:h-10",
+        className
+      )}
+      {...props}
+    />
+  )
 }
 
 export function SegmentedTab({
