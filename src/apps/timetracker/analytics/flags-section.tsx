@@ -178,7 +178,8 @@ export function FlagsSection({
               {CHECKS.map((c) => (
                 <SegmentedTab key={c} value={c}>
                   {c === "all" ? "All" : CHECK_LABEL[c]}
-                  <span className="text-muted-foreground tabular-nums">
+                  {/* The count sits on a subtle circle (a pill once it reaches 10). */}
+                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-foreground/5 px-1 text-xs text-muted-foreground tabular-nums">
                     {countFor(c)}
                   </span>
                 </SegmentedTab>
