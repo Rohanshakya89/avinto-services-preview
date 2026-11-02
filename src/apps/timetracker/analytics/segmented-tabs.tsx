@@ -24,7 +24,8 @@ export function SegmentedTab({
   return (
     <TabsTrigger
       className={cn(
-        "px-6 tt-dark:data-active:bg-primary/20 tt-dark:data-active:text-foreground",
+        // `!` so the tint wins over the tabs component's own `dark:` styling.
+        "px-6 tt-dark:data-active:border-transparent! tt-dark:data-active:bg-primary/20! tt-dark:data-active:text-foreground",
         className
       )}
       {...props}
