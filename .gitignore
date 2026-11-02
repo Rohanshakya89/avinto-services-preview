@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .wrangler
+
+# Screenshots of the live internal tracker (real data); never commit or publish
+public/Reference Images/

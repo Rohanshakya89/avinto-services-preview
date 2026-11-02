@@ -9,7 +9,6 @@ import {
   Route,
   User,
   Users,
-  Wallet,
   type LucideIcon,
 } from "lucide-react"
 
@@ -53,16 +52,15 @@ export function BusinessAnalysisCanvas() {
 const VOICES: { icon: LucideIcon; label: string }[] = [
   { icon: User, label: "Use it" },
   { icon: Cog, label: "Run it" },
-  { icon: Wallet, label: "Pay for it" },
 ]
 
 /** Different voices are heard, then they reach one shared view. */
 function DiscoveryVisual({ on }: VisualProps) {
-  const t = useTicker(on, TICK_MS, 4)
+  const t = useTicker(on, TICK_MS, 3)
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="grid grid-cols-3 gap-2">
+      <div id="discovery-voices" className="grid grid-cols-2 gap-2">
         {VOICES.map((voice, i) => {
           const Icon = voice.icon
           return (
@@ -82,7 +80,7 @@ function DiscoveryVisual({ on }: VisualProps) {
 
       <span
         className={reveal(
-          t >= 4,
+          t >= 3,
           "flex h-14 items-center justify-center gap-2 rounded-xl border border-primary bg-primary text-sm font-medium text-primary-foreground"
         )}
       >
@@ -309,7 +307,7 @@ const STAGES: ShowcaseStage[] = [
     title: "Discovery & stakeholder alignment",
     shortTitle: "Discovery",
     icon: Users,
-    description: "We talk to the people who use, run and pay for the system.",
+    description: "We talk to the people who use and run the system.",
     Visual: DiscoveryVisual,
   },
   {

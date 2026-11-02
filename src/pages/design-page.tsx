@@ -2,8 +2,8 @@ import * as React from "react"
 import { motion, useInView, useReducedMotion } from "motion/react"
 import {
   ArrowUpRight,
+  CircleCheck,
   Compass,
-  Eye,
   Layers,
   LayoutTemplate,
   type LucideIcon,
@@ -12,13 +12,16 @@ import {
   ScanEye,
   Sparkles,
   Timer,
-  UserCheck,
-  Zap,
 } from "lucide-react"
 
 import { cn } from "cn"
 import { Reveal } from "@/components/reveal"
 import { SectionHeading } from "@/components/section-heading"
+import {
+  ApproachSection,
+  type ApproachPoint,
+} from "@/components/service/approach-section"
+import { DesignApproachIllustration } from "@/components/service/design-approach-illustration"
 import { DesignBoard } from "@/components/service/design-board"
 import { DesignCanvas } from "@/components/service/design-canvas"
 import { ServiceHero } from "@/components/service/service-hero"
@@ -38,13 +41,13 @@ export function DesignPage() {
   return (
     <ServicePage service={service}>
       <Hero />
+      <Approach />
+      <Scandinavian />
       {SHOW_LOWER_SECTIONS && (
         <>
           <WhyClients />
           <WhatWeDo />
-          <Approach />
           <Stack />
-          <Scandinavian />
           <AiProcess />
           <Projects />
           <Cta />
@@ -182,17 +185,17 @@ function WhatWeDo() {
 
 /* ------------------------------- Our approach ------------------------------ */
 
-const APPROACH = [
+const APPROACH: ApproachPoint[] = [
   {
     lead: "Flexes to what the client already has.",
     text: "No two engagements start from the same place, so the process doesn't force one.",
   },
   {
-    lead: "Strong direction? We sharpen it.",
+    lead: "Sharpen a strong direction.",
     text: "If the client has a strong direction, the team works from that foundation and sharpens it, rather than overriding it.",
   },
   {
-    lead: "Only a problem to solve? We lead.",
+    lead: "Lead the design.",
     text: "The team leads the design from a blank page, building structure and direction from scratch.",
   },
   {
@@ -203,38 +206,9 @@ const APPROACH = [
 
 function Approach() {
   return (
-    <section className="py-16 sm:py-24 lg:py-32">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-24">
-        <SectionHeading
-          align="left"
-          eyebrow="Our approach"
-          title="We meet you where you are"
-          description="Whatever you bring to the table, the process bends to fit it."
-        />
-        <ul className="flex flex-col">
-          {APPROACH.map((item, i) => (
-            <Reveal
-              as="li"
-              key={item.lead}
-              delay={i * 0.06}
-              className="group/item"
-            >
-              <div className="flex gap-6 border-t border-border py-6">
-                <span className="font-heading text-sm font-medium text-primary">
-                  0{i + 1}
-                </span>
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-lg font-medium tracking-tight">
-                    {item.lead}
-                  </h3>
-                  <p className="text-muted-foreground">{item.text}</p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </ul>
-      </div>
-    </section>
+    <ApproachSection points={APPROACH}>
+      <DesignApproachIllustration />
+    </ApproachSection>
   )
 }
 
@@ -305,67 +279,67 @@ function Stack() {
 
 /* ------------------------------ Scandinavian ------------------------------- */
 
-const PRINCIPLES: { icon: LucideIcon; title: string; text: string }[] = [
+const PRINCIPLES: { title: string; text: string }[] = [
   {
-    icon: Zap,
     title: "Function before flourish",
     text: "Every screen is built to do its job clearly first. Visual polish comes after usability, not instead of it.",
   },
   {
-    icon: ScanEye,
-    title: "Restraint as a design choice, not a limitation",
+    title: "Only what's needed",
     text: "Removing unnecessary elements isn't about minimalism for its own sake. It's about making sure nothing gets in the way of what the user actually needs to do.",
   },
   {
-    icon: UserCheck,
     title: "Accessibility built in, not bolted on",
     text: "Scandinavian design has long prioritized designing for everyone, not just the average user, a principle that shapes how interfaces are built from the start rather than patched later.",
   },
   {
-    icon: Eye,
     title: "Honesty in interaction",
     text: "Interfaces behave the way they look like they'll behave. No hidden gestures, no decorative elements pretending to be functional ones.",
   },
 ]
 
+/** Heading on top; principles on the left, a phone mockup on the right. */
 function Scandinavian() {
   return (
-    <section className="py-16 sm:py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="scandinavian" className="scroll-mt-16 bg-muted/50">
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-6 py-16 sm:py-24 lg:py-32">
         <SectionHeading
           align="left"
-          eyebrow="Our philosophy"
           title="Scandinavian design, applied to software"
           description="Most people picture whitespace and pale wood. Scandinavian design is really a functional philosophy: form follows function, nothing without purpose. That's the standard we design to."
-          className="max-w-3xl"
+          className="max-w-xl"
         />
-        <ul className="mt-12 grid gap-4 md:grid-cols-2">
-          {PRINCIPLES.map((p, i) => {
-            const Icon = p.icon
-            return (
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-24">
+          <ul className="flex w-full flex-col gap-8 lg:max-w-xl">
+            {PRINCIPLES.map((p, i) => (
               <Reveal
                 as="li"
                 key={p.title}
-                delay={(i % 2) * 0.08}
-                className="group/principle"
+                delay={i * 0.06}
+                className="flex items-start gap-4"
               >
-                <div className="flex h-full gap-6 rounded-2xl border border-border p-6 transition-[border-color,background-color] duration-300 ease-out hover:border-primary/40 hover:bg-primary/5">
-                  <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform duration-300 ease-out group-hover/principle:scale-105">
-                    <Icon className="size-6 transition-transform duration-300 ease-out group-hover/principle:-rotate-6" />
-                  </span>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-lg font-medium tracking-tight text-balance">
-                      {p.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-muted-foreground">
-                      {p.text}
-                    </p>
-                  </div>
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-muted/50 text-muted-foreground">
+                  <CircleCheck className="size-4" />
+                </span>
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-xl font-medium">{p.title}</h3>
+                  <p className="text-base leading-6 text-muted-foreground">
+                    {p.text}
+                  </p>
                 </div>
               </Reveal>
-            )
-          })}
-        </ul>
+            ))}
+          </ul>
+          <Reveal delay={0.12} className="w-full lg:max-w-[492px]">
+            <div className="aspect-[492/472] w-full overflow-hidden rounded-xl bg-muted">
+              <img
+                src="/Images/scandinavian-design.png"
+                alt="Scandinavian design, applied to software"
+                className="size-full object-cover"
+              />
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   )

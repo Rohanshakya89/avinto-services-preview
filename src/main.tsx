@@ -5,12 +5,14 @@ import { MotionConfig } from "motion/react"
 import "./index.css"
 import App from "./App.tsx"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
+import { DevChangelog } from "@/components/dev-changelog.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider defaultTheme="dark">
       <MotionConfig reducedMotion="user">
         <App />
+        <DevChangelog />
       </MotionConfig>
     </ThemeProvider>
   </StrictMode>
